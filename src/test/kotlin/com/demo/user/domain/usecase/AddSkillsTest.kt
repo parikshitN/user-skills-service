@@ -3,7 +3,7 @@ package com.demo.user.domain.usecase
 import com.demo.user.domain.exception.ApiException
 import com.demo.user.domain.model.UserSkills
 import com.demo.user.domain.repository.UserSkillRepository
-import com.demo.user.domain.usecase.input.UserSkillsInput
+import com.demo.user.domain.usecase.input.UserInput
 import com.demo.user.domain.usecase.output.UserSkillsOutput
 import io.mockk.every
 import io.mockk.mockk
@@ -18,15 +18,42 @@ class AddSkillsTest {
     fun `user should be able to add a skill to self`() {
         val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
         val userId = UUID.randomUUID()
-        every { userSkillRepository.findById(userId) } returns UserSkills(userId = userId, skills = emptyList())
-        val skillId = UUID.randomUUID()
-        every { userSkillRepository.save(UserSkills(userId = userId, skills = listOf(skillId))) } returns UserSkills(
+        every { userSkillRepository.findById(userId) } returns UserSkills(
             userId = userId,
-            skills = listOf(skillId)
+            skills = emptyList(),
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@test.com"
+        )
+        val skillId = UUID.randomUUID()
+        every {
+            userSkillRepository.save(
+                UserSkills(
+                    userId = userId,
+                    skills = listOf(skillId),
+                    firstName = "John",
+                    lastName = "Doe",
+                    email = "john.doe@test.com"
+                )
+            )
+        } returns UserSkills(
+            userId = userId,
+            skills = listOf(skillId),
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@test.com"
         )
         val usecase = AddSkills(userSkillRepository)
 
-        val output = usecase(UserSkillsInput(userId = userId, skills = listOf(skillId)))
+        val output = usecase(
+            UserInput(
+                skills = listOf(skillId),
+                userId = userId,
+                firstName = "Jhon",
+                lastName = "Doe",
+                email = "john.doe@test.com"
+            )
+        )
 
         val expected = UserSkillsOutput(userId = userId, skills = listOf(skillId))
         output `should be equal to` expected
@@ -41,11 +68,14 @@ class AddSkillsTest {
 
         val error = Assertions.assertThrows(ApiException::class.java) {
             usecase(
-                UserSkillsInput(
-                    userId = userId,
+                UserInput(
                     skills = listOf(
                         UUID.randomUUID()
-                    )
+                    ),
+                    userId = userId,
+                    firstName = "Jhon",
+                    lastName = "Doe",
+                    email = "john.doe@test.com"
                 )
             )
         }
