@@ -1,5 +1,6 @@
 package com.demo.user.usecase
 
+import com.demo.user.exception.ApiException
 import com.demo.user.model.UserSkills
 import com.demo.user.repository.UserSkillRepository
 import com.demo.user.usecase.input.UserSkillsInput
@@ -7,6 +8,7 @@ import com.demo.user.usecase.output.UserSkillsOutput
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.`should be equal to`
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -28,5 +30,18 @@ class AddSkillsTest {
 
         val expected = UserSkillsOutput(userId = userId, skills = listOf(skillId))
         output `should be equal to` expected
+    }
+
+    @Test
+    fun `should throw error if user doesnt exists`() {
+        val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
+        val userId = UUID.randomUUID()
+        every { userSkillRepository.findById(userId) } returns null
+        val usecase = AddSkills(userSkillRepository)
+
+        val error = Assertions.assertThrows(ApiException::class.java) { usecase(UserSkillsInput(userId = userId, skills = listOf(
+            UUID.randomUUID()))) }
+
+        error.message `should be equal to` "User doesn't already exists"
     }
 }
