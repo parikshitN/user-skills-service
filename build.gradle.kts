@@ -30,6 +30,8 @@ dependencies {
     testImplementation("org.amshove.kluent:kluent:1.72")
     testImplementation("org.mockito:mockito-core:4.3.1")
     testImplementation("io.mockk:mockk:1.9.3")
+    testImplementation("org.testcontainers:testcontainers:1.16.3")
+    testImplementation("org.testcontainers:mongodb:1.17.6")
 }
 
 tasks.withType<KotlinCompile> {

@@ -5,7 +5,7 @@ import com.demo.user.domain.usecase.output.UserOutput
 import java.util.UUID
 
 data class User(
-    val userId: UUID,
+    val userId: UUID = UUID.randomUUID(),
     val firstName: String,
     val lastName: String,
     val email: String,
