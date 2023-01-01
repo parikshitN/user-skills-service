@@ -25,6 +25,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+	testImplementation("org.amshove.kluent:kluent:1.72")
+	testImplementation("org.mockito:mockito-core:4.3.1")
+	testImplementation("io.mockk:mockk:1.9.3")
 }
 
 tasks.withType<KotlinCompile> {
