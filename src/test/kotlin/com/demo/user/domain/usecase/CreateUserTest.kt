@@ -1,7 +1,7 @@
 package com.demo.user.domain.usecase
 
 import com.demo.user.domain.model.User
-import com.demo.user.domain.repository.UserSkillRepository
+import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.input.UserInput
 import com.demo.user.domain.usecase.output.UserOutput
 import io.mockk.every
@@ -14,7 +14,7 @@ class CreateUserTest {
 
     @Test
     fun `should be able to add a new user`() {
-        val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
+        val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
         val user = User(
             userId = userId,
@@ -24,9 +24,9 @@ class CreateUserTest {
             skills2 = listOf()
         )
         every {
-            userSkillRepository.save(user)
+            userRepository.save(user)
         } returns user
-        val createUser = CreateUser(userSkillRepository)
+        val createUser = CreateUser(userRepository)
 
         val output = createUser(UserInput(
             userId = userId,

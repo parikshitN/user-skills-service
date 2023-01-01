@@ -4,7 +4,7 @@ import com.demo.user.domain.exception.ApiException
 import com.demo.user.domain.model.Expertise
 import com.demo.user.domain.model.SkillLevel
 import com.demo.user.domain.model.User
-import com.demo.user.domain.repository.UserSkillRepository
+import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.input.ExpertiseInput
 import com.demo.user.domain.usecase.input.UserExpertiseInput
 import com.demo.user.domain.usecase.output.ExpertiseOutput
@@ -20,11 +20,11 @@ class AddSkillsTest {
 
     @Test
     fun `user should be able to add a skill to self`() {
-        val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
+        val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
         val skillId = UUID.randomUUID()
         val skill = Expertise(skillId = skillId, level = SkillLevel.BASIC, experience = 3)
-        every { userSkillRepository.findById(userId) } returns User(
+        every { userRepository.findById(userId) } returns User(
             userId = userId,
             firstName = "Mark",
             lastName = "Ryan",
@@ -32,7 +32,7 @@ class AddSkillsTest {
             skills2 = listOf(skill)
         )
         every {
-            userSkillRepository.save(
+            userRepository.save(
                 User(
                     userId = userId,
                     firstName = "Mark",
@@ -48,7 +48,7 @@ class AddSkillsTest {
             email = "mark.ryan@test.com",
             skills2 = listOf(skill)
         )
-        val usecase = AddSkills(userSkillRepository)
+        val usecase = AddSkills(userRepository)
 
         val output = usecase(UserExpertiseInput(
             userId = userId,
@@ -64,10 +64,10 @@ class AddSkillsTest {
 
     @Test
     fun `should throw error if user doesnt exists`() {
-        val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
+        val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
-        every { userSkillRepository.findById(userId) } returns null
-        val usecase = AddSkills(userSkillRepository)
+        every { userRepository.findById(userId) } returns null
+        val usecase = AddSkills(userRepository)
 
         val error = Assertions.assertThrows(ApiException::class.java) {
             usecase(
