@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class UserSkillsServiceApplication
 
 fun main(args: Array<String>) {
-	runApplication<UserSkillsServiceApplication>(*args)
+    runApplication<UserSkillsServiceApplication>(*args)
 }

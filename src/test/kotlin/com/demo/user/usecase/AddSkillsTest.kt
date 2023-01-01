@@ -1,14 +1,14 @@
 package com.demo.user.usecase
 
-import com.demo.user.repository.UserSkillRepository
 import com.demo.user.model.UserSkills
+import com.demo.user.repository.UserSkillRepository
 import com.demo.user.usecase.input.UserSkillsInput
 import com.demo.user.usecase.output.UserSkillsOutput
 import io.mockk.every
 import io.mockk.mockk
 import org.amshove.kluent.`should be equal to`
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.UUID
 
 class AddSkillsTest {
 
