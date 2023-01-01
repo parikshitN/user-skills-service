@@ -1,10 +1,10 @@
-package com.demo.user.usecase
+package com.demo.user.domain.usecase
 
-import com.demo.user.exception.ApiException
-import com.demo.user.model.UserSkills
-import com.demo.user.repository.UserSkillRepository
-import com.demo.user.usecase.input.UserSkillsInput
-import com.demo.user.usecase.output.UserSkillsOutput
+import com.demo.user.domain.exception.ApiException
+import com.demo.user.domain.model.UserSkills
+import com.demo.user.domain.repository.UserSkillRepository
+import com.demo.user.domain.usecase.input.UserSkillsInput
+import com.demo.user.domain.usecase.output.UserSkillsOutput
 
 class AddSkills(private val userSkillRepository: UserSkillRepository) {
 

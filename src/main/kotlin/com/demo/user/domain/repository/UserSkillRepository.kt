@@ -1,6 +1,6 @@
-package com.demo.user.repository
+package com.demo.user.domain.repository
 
-import com.demo.user.model.UserSkills
+import com.demo.user.domain.model.UserSkills
 import java.util.UUID
 
 interface UserSkillRepository {

@@ -1,4 +1,4 @@
-package com.demo.user.usecase.output
+package com.demo.user.domain.usecase.output
 
 import java.util.UUID
 

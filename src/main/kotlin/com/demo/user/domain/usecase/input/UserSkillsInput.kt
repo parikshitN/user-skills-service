@@ -1,6 +1,6 @@
-package com.demo.user.usecase.input
+package com.demo.user.domain.usecase.input
 
-import com.demo.user.usecase.output.UserSkillsOutput
+import com.demo.user.domain.usecase.output.UserSkillsOutput
 import java.util.UUID
 
 class UserSkillsInput(val skills: List<UUID>, val userId: UUID) {
