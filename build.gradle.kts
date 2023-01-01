@@ -57,7 +57,6 @@ ktlint {
 }
 
 group = "dockerlearnerpn"
-
 docker {
     dependsOn(tasks.build.get())
     name = "${project.group}/user-skills-service"
