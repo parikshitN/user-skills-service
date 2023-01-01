@@ -21,12 +21,12 @@ class UserController {
     @Autowired lateinit var updateUserExpertise: UpdateUserExpertise
 
     @PostMapping
-    fun create(@RequestBody userInput: UserInput) : UserOutput {
+    fun create(@RequestBody userInput: UserInput): UserOutput {
         return createUser(userInput)
     }
 
     @PatchMapping("/{userId}/expertise")
-    fun updateExpertise(@RequestBody userExpertiseInput: UserExpertiseInput) : UserExpertiseOutput {
+    fun updateExpertise(@RequestBody userExpertiseInput: UserExpertiseInput): UserExpertiseOutput {
         return updateUserExpertise(userExpertiseInput)
     }
 }

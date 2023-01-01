@@ -20,7 +20,6 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.test.context.ContextConfiguration
 import java.util.UUID
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [MongoDBContainerInitializer::class])
 class UserControllerTest {
@@ -45,9 +44,9 @@ class UserControllerTest {
 
         val response = restTemplate.postForEntity("http://localhost:$port/api/users", input, UserOutput::class.java)
 
-        response.statusCode `should be equal to`  HttpStatus.OK
+        response.statusCode `should be equal to` HttpStatus.OK
         val userOutput = response.body
-        userOutput?.firstName `should be equal to`  "John"
+        userOutput?.firstName `should be equal to` "John"
         userOutput?.lastName `should be equal to` "Snow"
         userOutput?.email `should be equal to` "john@test.com"
     }
@@ -61,8 +60,7 @@ class UserControllerTest {
         )
         val userExpertiseInput = UserExpertiseInput(user.userId, listOf(expertiseInput))
 
-        val response = restTemplate.patchForObject("http://localhost:$port/api/users/${user.userId}/expertise"
-            , userExpertiseInput, UserExpertiseOutput::class.java)
+        val response = restTemplate.patchForObject("http://localhost:$port/api/users/${user.userId}/expertise", userExpertiseInput, UserExpertiseOutput::class.java)
 
         response.userId `should be equal to` user.userId
         response.skills2[0].skillId `should be equal to` expertiseInput.skillId

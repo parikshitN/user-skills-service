@@ -28,11 +28,13 @@ class CreateUserTest {
         } returns user
         val createUser = CreateUser(userRepository)
 
-        val output = createUser(UserInput(
-            firstName = "John",
-            lastName = "Doe",
-            email = "john.doe@test.com"
-        ))
+        val output = createUser(
+            UserInput(
+                firstName = "John",
+                lastName = "Doe",
+                email = "john.doe@test.com"
+            )
+        )
 
         val expected = UserOutput(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com")
         output `should be equal to` expected

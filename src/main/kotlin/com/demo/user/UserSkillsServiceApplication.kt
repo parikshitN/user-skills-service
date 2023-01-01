@@ -30,4 +30,3 @@ class ApplicationConfiguration {
         return UpdateUserExpertise(userRepository)
     }
 }
-

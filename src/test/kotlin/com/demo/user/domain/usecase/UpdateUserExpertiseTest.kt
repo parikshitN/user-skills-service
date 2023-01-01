@@ -50,10 +50,12 @@ class UpdateUserExpertiseTest {
         )
         val usecase = UpdateUserExpertise(userRepository)
 
-        val output = usecase(UserExpertiseInput(
-            userId = userId,
-            skills2 = listOf(ExpertiseInput(skillId = skillId, level = "Basic", experience = 3))
-        ))
+        val output = usecase(
+            UserExpertiseInput(
+                userId = userId,
+                skills2 = listOf(ExpertiseInput(skillId = skillId, level = "Basic", experience = 3))
+            )
+        )
 
         val expected = UserExpertiseOutput(
             userId = userId,

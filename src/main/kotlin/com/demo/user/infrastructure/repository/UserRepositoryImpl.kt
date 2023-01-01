@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-class UserRepositoryImpl(private val userMongoRepository: UserMongoRepository): UserRepository {
+class UserRepositoryImpl(private val userMongoRepository: UserMongoRepository) : UserRepository {
 
     override fun findById(userId: UUID): User? {
         return userMongoRepository.findById(userId).orElse(null)?.toUser()
@@ -20,4 +20,4 @@ class UserRepositoryImpl(private val userMongoRepository: UserMongoRepository): 
 }
 
 @Repository
-interface UserMongoRepository: MongoRepository<UserDocument, UUID>
+interface UserMongoRepository : MongoRepository<UserDocument, UUID>

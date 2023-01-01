@@ -18,8 +18,9 @@ import java.util.UUID
 
 @SpringBootTest
 @ContextConfiguration(initializers = [MongoDBContainerInitializer::class])
-class UserRepositoryTest(@Autowired private val userRepository: UserRepository,
-                         @Autowired private val mongoTemplate: MongoTemplate
+class UserRepositoryTest(
+    @Autowired private val userRepository: UserRepository,
+    @Autowired private val mongoTemplate: MongoTemplate
 ) {
 
     @Test
@@ -28,20 +29,20 @@ class UserRepositoryTest(@Autowired private val userRepository: UserRepository,
 
         val document = mongoTemplate.findById(saved.userId, UserDocument::class.java)
 
-        document?.uuid `should be equal to`  saved.userId
+        document?.uuid `should be equal to` saved.userId
         document?.firstName `should be equal to` saved.firstName
         document?.lastName `should be equal to` saved.lastName
         document?.email `should be equal to` saved.email
         document?.skills `should be equal to` saved.skills2
     }
 
-    @Disabled//todo: unique index not working - need to fix
+    @Disabled // todo: unique index not working - need to fix
     @Test
     fun `should not save user if a user already exists with same email`() {
         val user = User(firstName = "Tyrion", lastName = "Lanister", email = "tyrion@test.com", skills2 = emptyList())
         mongoTemplate.save(UserDocument.from(user))
 
-        Assertions.assertThrows(java.lang.Exception::class.java){
+        Assertions.assertThrows(java.lang.Exception::class.java) {
             userRepository.save(user.copy(userId = UUID.randomUUID(), firstName = "Jamie", lastName = "Lanister"))
         }
     }
@@ -49,13 +50,16 @@ class UserRepositoryTest(@Autowired private val userRepository: UserRepository,
     @Test
     fun `should save expertise for a user`() {
         val expertise = Expertise(UUID.randomUUID(), SkillLevel.BASIC, 3)
-        val user = User(firstName = "Tyrion", lastName = "Lanister", email = "tyrion@test.com", skills2 = listOf(
-            expertise
-        ))
+        val user = User(
+            firstName = "Tyrion", lastName = "Lanister", email = "tyrion@test.com",
+            skills2 = listOf(
+                expertise
+            )
+        )
 
         val saved = userRepository.save(user)
 
-        val document  = mongoTemplate.findById(saved.userId, UserDocument::class.java)
+        val document = mongoTemplate.findById(saved.userId, UserDocument::class.java)
         document?.skills `should be equal to` listOf(ExpertiseDocument.from(expertise))
     }
 }

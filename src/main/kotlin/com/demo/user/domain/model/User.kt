@@ -13,7 +13,8 @@ data class User(
 ) {
     fun toUserSkillOutput() = UserExpertiseOutput(
         userId,
-        skills2.map { it.toExpertiseOutput() })
+        skills2.map { it.toExpertiseOutput() }
+    )
     fun toUserOutput(): UserOutput {
         return UserOutput(userId, firstName, lastName, email)
     }
