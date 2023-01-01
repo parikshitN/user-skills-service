@@ -39,8 +39,16 @@ class AddSkillsTest {
         every { userSkillRepository.findById(userId) } returns null
         val usecase = AddSkills(userSkillRepository)
 
-        val error = Assertions.assertThrows(ApiException::class.java) { usecase(UserSkillsInput(userId = userId, skills = listOf(
-            UUID.randomUUID()))) }
+        val error = Assertions.assertThrows(ApiException::class.java) {
+            usecase(
+                UserSkillsInput(
+                    userId = userId,
+                    skills = listOf(
+                        UUID.randomUUID()
+                    )
+                )
+            )
+        }
 
         error.message `should be equal to` "User doesn't already exists"
     }
