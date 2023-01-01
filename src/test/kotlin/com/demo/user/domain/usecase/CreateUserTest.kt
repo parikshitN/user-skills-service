@@ -1,6 +1,6 @@
 package com.demo.user.domain.usecase
 
-import com.demo.user.domain.model.UserSkills
+import com.demo.user.domain.model.User
 import com.demo.user.domain.repository.UserSkillRepository
 import com.demo.user.domain.usecase.input.UserInput
 import com.demo.user.domain.usecase.output.UserOutput
@@ -16,15 +16,26 @@ class CreateUserTest {
     fun `should be able to add a new user`() {
         val userSkillRepository = mockk<UserSkillRepository>(relaxed = true)
         val userId = UUID.randomUUID()
-        val userSkills = UserSkills(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com", skills = emptyList())
+        val user = User(
+            userId = userId,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@test.com",
+            skills2 = listOf()
+        )
         every {
-            userSkillRepository.save(userSkills)
-        } returns userSkills
+            userSkillRepository.save(user)
+        } returns user
         val createUser = CreateUser(userSkillRepository)
 
-        val output = createUser(UserInput(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com", skills = emptyList()))
+        val output = createUser(UserInput(
+            userId = userId,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@test.com"
+        ))
 
-        val expected = UserOutput(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com", skills = emptyList())
+        val expected = UserOutput(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com")
         output `should be equal to` expected
     }
 }
