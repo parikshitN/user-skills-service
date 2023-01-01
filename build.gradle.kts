@@ -7,9 +7,9 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    id("com.palantir.docker") version "0.21.0"
 }
 
-group = "com.demo"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -54,4 +54,19 @@ ktlint {
         reporter(ReporterType.JSON)
         reporter(ReporterType.HTML)
     }
+}
+
+group = "dockerlearnerpn"
+
+docker {
+    dependsOn(tasks.build.get())
+    name = "${project.group}/user-skills-service"
+    files(tasks.bootJar.get().archiveFile)
+    print(tasks.bootJar.get().archiveFileName.get())
+    buildArgs(
+        mapOf(
+            "JAR_FILE" to tasks.bootJar.get().archiveFileName.get()
+        )
+    )
+    tag("latest", "${project.group}/user-skills-service:latest")
 }
