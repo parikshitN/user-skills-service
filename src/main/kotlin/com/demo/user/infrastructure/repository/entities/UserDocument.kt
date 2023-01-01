@@ -1,6 +1,7 @@
 package com.demo.user.infrastructure.repository.entities
 
 import com.demo.user.domain.model.Expertise
+import com.demo.user.domain.model.SkillLevel
 import com.demo.user.domain.model.User
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
@@ -16,7 +17,7 @@ data class UserDocument(
     val skills: List<ExpertiseDocument>
 ) {
     fun toUser(): User {
-        return User(uuid, firstName, lastName, email, emptyList())
+        return User(uuid, firstName, lastName, email, skills.map { it.toExpertise() })
     }
 
     companion object {
@@ -27,6 +28,10 @@ data class UserDocument(
 }
 
 data class ExpertiseDocument(val skillId: UUID, val level: String, val experience: Int) {
+    fun toExpertise(): Expertise {
+        return Expertise(skillId, SkillLevel.from(level), experience)
+    }
+
     companion object {
         fun from(expertise: Expertise): ExpertiseDocument {
             return ExpertiseDocument(expertise.skillId, expertise.level.label, expertise.experience)

@@ -29,7 +29,6 @@ class CreateUserTest {
         val createUser = CreateUser(userRepository)
 
         val output = createUser(UserInput(
-            userId = userId,
             firstName = "John",
             lastName = "Doe",
             email = "john.doe@test.com"
