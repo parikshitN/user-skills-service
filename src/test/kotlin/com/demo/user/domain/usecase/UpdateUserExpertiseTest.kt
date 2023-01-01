@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
-class AddSkillsTest {
+class UpdateUserExpertiseTest {
 
     @Test
     fun `user should be able to add a skill to self`() {
@@ -48,7 +48,7 @@ class AddSkillsTest {
             email = "mark.ryan@test.com",
             skills2 = listOf(skill)
         )
-        val usecase = AddSkills(userRepository)
+        val usecase = UpdateUserExpertise(userRepository)
 
         val output = usecase(UserExpertiseInput(
             userId = userId,
@@ -67,7 +67,7 @@ class AddSkillsTest {
         val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
         every { userRepository.findById(userId) } returns null
-        val usecase = AddSkills(userRepository)
+        val usecase = UpdateUserExpertise(userRepository)
 
         val error = Assertions.assertThrows(ApiException::class.java) {
             usecase(

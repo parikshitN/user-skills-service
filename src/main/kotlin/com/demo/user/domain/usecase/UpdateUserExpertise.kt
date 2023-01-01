@@ -5,7 +5,7 @@ import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.input.UserExpertiseInput
 import com.demo.user.domain.usecase.output.UserExpertiseOutput
 
-class AddSkills(private val userRepository: UserRepository) {
+class UpdateUserExpertise(private val userRepository: UserRepository) {
 
     operator fun invoke(userExpertiseInput: UserExpertiseInput): UserExpertiseOutput {
         val user = userRepository.findById(userExpertiseInput.userId) ?: throw ApiException("User doesn't already exists")
