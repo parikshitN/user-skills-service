@@ -4,7 +4,6 @@ import com.demo.user.domain.model.SkillLevel
 import com.demo.user.domain.model.User
 import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.input.ExpertiseInput
-import com.demo.user.domain.usecase.input.UserExpertiseInput
 import com.demo.user.domain.usecase.input.UserInput
 import com.demo.user.domain.usecase.output.UserExpertiseOutput
 import com.demo.user.domain.usecase.output.UserOutput
@@ -58,13 +57,16 @@ class UserControllerTest {
         val expertiseInput = ExpertiseInput(
             UUID.randomUUID(), SkillLevel.BASIC.label, 5
         )
-        val userExpertiseInput = UserExpertiseInput(user.userId, listOf(expertiseInput))
 
-        val response = restTemplate.patchForObject("http://localhost:$port/api/users/${user.userId}/expertise", userExpertiseInput, UserExpertiseOutput::class.java)
+        val response = restTemplate.patchForObject(
+            "http://localhost:$port/api/users/${user.userId}/expertise",
+            listOf(expertiseInput),
+            UserExpertiseOutput::class.java
+        )
 
         response.userId `should be equal to` user.userId
-        response.skills2[0].skillId `should be equal to` expertiseInput.skillId
-        response.skills2[0].level `should be equal to` expertiseInput.level
-        response.skills2[0].experience `should be equal to` expertiseInput.experience
+        response.expertise[0].skillId `should be equal to` expertiseInput.skillId
+        response.expertise[0].level `should be equal to` expertiseInput.level
+        response.expertise[0].experience `should be equal to` expertiseInput.experience
     }
 }

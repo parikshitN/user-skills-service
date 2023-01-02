@@ -6,7 +6,6 @@ import com.demo.user.domain.model.SkillLevel
 import com.demo.user.domain.model.User
 import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.input.ExpertiseInput
-import com.demo.user.domain.usecase.input.UserExpertiseInput
 import com.demo.user.domain.usecase.output.ExpertiseOutput
 import com.demo.user.domain.usecase.output.UserExpertiseOutput
 import io.mockk.every
@@ -49,17 +48,16 @@ class UpdateUserExpertiseTest {
             skills2 = listOf(skill)
         )
         val usecase = UpdateUserExpertise(userRepository)
+        val expertise = listOf(ExpertiseInput(skillId = skillId, level = "Basic", experience = 3))
 
         val output = usecase(
-            UserExpertiseInput(
-                userId = userId,
-                skills2 = listOf(ExpertiseInput(skillId = skillId, level = "Basic", experience = 3))
-            )
+            userId,
+            expertise
         )
 
         val expected = UserExpertiseOutput(
             userId = userId,
-            skills2 = listOf(ExpertiseOutput(skillId = skillId, level = "Basic", experience = 3))
+            expertise = listOf(ExpertiseOutput(skillId = skillId, level = "Basic", experience = 3))
         )
         output `should be equal to` expected
     }
@@ -73,10 +71,7 @@ class UpdateUserExpertiseTest {
 
         val error = Assertions.assertThrows(ApiException::class.java) {
             usecase(
-                UserExpertiseInput(
-                    userId = userId,
-                    skills2 = listOf(ExpertiseInput(skillId = UUID.randomUUID(), level = "Basic", experience = 3)),
-                )
+                userId, listOf(ExpertiseInput(skillId = UUID.randomUUID(), level = "Basic", experience = 3))
             )
         }
 
