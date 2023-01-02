@@ -1,0 +1,10 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ${user_skill_service_name:user-skill-service}
+  data:
+    mongodb:
+      database: ${user_skill_mongo_database:user-skill}
+      uri: ${user_skill_mongo_uri:mongodb://localhost:27018}
+
