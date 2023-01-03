@@ -17,37 +17,23 @@ import java.util.UUID
 
 class UpdateUserExpertiseTest {
 
+    private val userRepository = mockk<UserRepository>(relaxed = true)
+    private val usecase = UpdateUserExpertise(userRepository)
+
     @Test
     fun `user should be able to add a skill to self`() {
-        val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
         val skillId = UUID.randomUUID()
         val skill = Expertise(skillId = skillId, level = SkillLevel.BASIC, experience = 3)
-        every { userRepository.findById(userId) } returns User(
+        val user = User(
             userId = userId,
             firstName = "Mark",
             lastName = "Ryan",
             email = "mark.ryan@test.com",
             skills2 = listOf(skill)
         )
-        every {
-            userRepository.save(
-                User(
-                    userId = userId,
-                    firstName = "Mark",
-                    lastName = "Ryan",
-                    email = "mark.ryan@test.com",
-                    skills2 = listOf(skill)
-                )
-            )
-        } returns User(
-            userId = userId,
-            firstName = "Mark",
-            lastName = "Ryan",
-            email = "mark.ryan@test.com",
-            skills2 = listOf(skill)
-        )
-        val usecase = UpdateUserExpertise(userRepository)
+        every { userRepository.findById(userId) } returns user
+        every { userRepository.save(user) } returns user
         val expertise = listOf(ExpertiseInput(skillId = skillId, level = "Basic", experience = 3))
 
         val output = usecase(
@@ -64,10 +50,8 @@ class UpdateUserExpertiseTest {
 
     @Test
     fun `should throw error if user doesnt exists`() {
-        val userRepository = mockk<UserRepository>(relaxed = true)
         val userId = UUID.randomUUID()
         every { userRepository.findById(userId) } returns null
-        val usecase = UpdateUserExpertise(userRepository)
 
         val error = Assertions.assertThrows(ApiException::class.java) {
             usecase(
