@@ -2,6 +2,7 @@ package com.demo.user
 
 import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.CreateUser
+import com.demo.user.domain.usecase.GetUser
 import com.demo.user.domain.usecase.UpdateUserExpertise
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -23,6 +24,11 @@ class ApplicationConfiguration {
     @Bean
     fun createUser(userRepository: UserRepository): CreateUser {
         return CreateUser(userRepository)
+    }
+
+    @Bean
+    fun getUser(userRepository: UserRepository): GetUser {
+        return GetUser(userRepository)
     }
 
     @Bean

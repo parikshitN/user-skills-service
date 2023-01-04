@@ -22,7 +22,7 @@ data class UserDocument(
 
     companion object {
         fun from(user: User): UserDocument {
-            return UserDocument(user.userId, user.firstName, user.lastName, user.email, user.skills2.map { ExpertiseDocument.from(it) })
+            return UserDocument(user.userId, user.firstName, user.lastName, user.email, user.expertise.map { ExpertiseDocument.from(it) })
         }
     }
 }

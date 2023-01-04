@@ -10,7 +10,7 @@ class UpdateUserExpertise(private val userRepository: UserRepository) {
 
     operator fun invoke(userId: UUID, expertise: List<ExpertiseInput>): UserExpertiseOutput {
         val user = userRepository.findById(userId) ?: throw ApiException("User doesn't already exists")
-        val saved = userRepository.save(user.copy(skills2 = expertise.map { it.toExpertise() }))
+        val saved = userRepository.save(user.copy(expertise = expertise.map { it.toExpertise() }))
         return saved.toUserSkillOutput()
     }
 }

@@ -23,7 +23,7 @@ class CreateUserTest {
             firstName = "John",
             lastName = "Doe",
             email = "john.doe@test.com",
-            skills2 = listOf()
+            expertise = listOf()
         )
         every {
             userRepository.save(any())
@@ -43,7 +43,13 @@ class CreateUserTest {
         userArg.captured.firstName `should be equal to` "John"
         userArg.captured.lastName `should be equal to` "Doe"
         userArg.captured.email `should be equal to` "john.doe@test.com"
-        val expected = UserOutput(userId = userId, firstName = "John", lastName = "Doe", email = "john.doe@test.com")
+        val expected = UserOutput(
+            userId = userId,
+            firstName = "John",
+            lastName = "Doe",
+            email = "john.doe@test.com",
+            expertise = emptyList()
+        )
         output `should be equal to` expected
     }
 }

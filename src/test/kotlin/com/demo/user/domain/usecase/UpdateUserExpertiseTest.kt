@@ -30,7 +30,7 @@ class UpdateUserExpertiseTest {
             firstName = "Mark",
             lastName = "Ryan",
             email = "mark.ryan@test.com",
-            skills2 = listOf(skill)
+            expertise = listOf(skill)
         )
         every { userRepository.findById(userId) } returns user
         every { userRepository.save(user) } returns user

@@ -1,5 +1,6 @@
 package com.demo.user.infrastructure.repository
 
+import com.demo.user.domain.model.Expertise
 import com.demo.user.domain.model.SkillLevel
 import com.demo.user.domain.model.User
 import com.demo.user.domain.repository.UserRepository
@@ -68,5 +69,25 @@ class UserControllerTest {
         response.expertise[0].skillId `should be equal to` expertiseInput.skillId
         response.expertise[0].level `should be equal to` expertiseInput.level
         response.expertise[0].experience `should be equal to` expertiseInput.experience
+    }
+
+    @Test
+    fun `should get a user with all its details`() {
+        val userId = UUID.randomUUID()
+        val expertise1 = Expertise(UUID.randomUUID(), SkillLevel.BASIC, 4)
+        val expertise2 = Expertise(UUID.randomUUID(), SkillLevel.INTERMEDIATE, 6)
+        val user = User(
+            userId, "John", "Snow", "john@test.com", listOf(expertise1, expertise2)
+        )
+        userRepository.save(user)
+
+        val response = restTemplate.getForEntity("http://localhost:$port/api/users/$userId", UserOutput::class.java)
+
+        response.statusCode `should be equal to` HttpStatus.OK
+        val userOutput = response.body
+        userOutput?.firstName `should be equal to` "John"
+        userOutput?.lastName `should be equal to` "Snow"
+        userOutput?.email `should be equal to` "john@test.com"
+        userOutput?.expertise `should be equal to` listOf(expertise1.toExpertiseOutput(), expertise2.toExpertiseOutput())
     }
 }
