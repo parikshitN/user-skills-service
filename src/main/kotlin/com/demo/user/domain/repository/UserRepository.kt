@@ -7,4 +7,6 @@ interface UserRepository {
     fun findById(userId: UUID): User?
 
     fun save(user: User): User
+
+    fun deleteExpertiseForSkill(skillId1: UUID)
 }

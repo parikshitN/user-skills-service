@@ -3,6 +3,7 @@ package com.demo.user
 import com.demo.user.domain.repository.UserRepository
 import com.demo.user.domain.usecase.CreateUser
 import com.demo.user.domain.usecase.GetUser
+import com.demo.user.domain.usecase.RemoveExpertise
 import com.demo.user.domain.usecase.UpdateUserExpertise
 import com.demo.user.infrastructure.listener.EventListener
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
@@ -67,7 +68,12 @@ class ApplicationConfiguration {
     }
 
     @Bean
-    fun eventListener(): EventListener {
-        return EventListener()
+    fun eventListener(removeExpertise: RemoveExpertise): EventListener {
+        return EventListener(removeExpertise)
+    }
+
+    @Bean
+    fun removeExpertise(userRepository: UserRepository): RemoveExpertise {
+        return RemoveExpertise(userRepository)
     }
 }

@@ -72,4 +72,30 @@ class UserRepositoryTest(
 
         actual `should be equal to` user
     }
+
+    @Test
+    fun `should remove expertise for given skill id`() {
+        val skillId1 = UUID.randomUUID()
+        val skillId2 = UUID.randomUUID()
+        val expertise1 = Expertise(skillId1, SkillLevel.BASIC, 3)
+        val expertise2 = Expertise(skillId1, SkillLevel.INTERMEDIATE, 5)
+        val expertise3 = Expertise(skillId2, SkillLevel.BASIC, 2)
+        val user1 = User(
+            firstName = "Tyrion", lastName = "Lanister", email = "tyrion@test.com",
+            expertise = listOf(expertise1, expertise3)
+        )
+        val user2 = User(
+            firstName = "Jamie", lastName = "Lanister", email = "jamie@test.com",
+            expertise = listOf(expertise2, expertise3)
+        )
+        mongoTemplate.save(UserDocument.from(user1))
+        mongoTemplate.save(UserDocument.from(user2))
+
+        userRepository.deleteExpertiseForSkill(skillId1)
+
+        val updated1 = mongoTemplate.findById(user1.userId, UserDocument::class.java)
+        updated1?.skills?.map { it.skillId } `should be equal to` listOf(skillId2)
+        val updated2 = mongoTemplate.findById(user2.userId, UserDocument::class.java)
+        updated2?.skills?.map { it.skillId } `should be equal to` listOf(skillId2)
+    }
 }
