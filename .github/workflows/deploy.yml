@@ -1,0 +1,20 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: testing
+    steps:
+      - name: build
+        run: echo "building ...."
+  deployment:
+    runs-on: ubuntu-latest
+    environment: testing
+    steps:
+      - name: deploy
+        run: echo "deploying to test environment"
